@@ -79,7 +79,7 @@ export default function AITutorPage() {
         res?.data?.content ||
         'No response received from AI.'
 
-      // console.log('AI TEXT:', aiText)
+      // alert(aiText)
 
       setMessages((prev) => [
         ...prev,
@@ -88,12 +88,12 @@ export default function AITutorPage() {
           content: aiText,
         },
       ])
-
-
+      console.log(aiText)
+      // print("KEY =", os.getenv("OPENROUTER_API_KEY"))
     } catch (err) {
-      // console.error('TUTOR ERROR:', err)
-      // console.error('ERROR RESPONSE:', err?.response)
-      // console.error('ERROR DATA:', err?.response?.data)
+      console.error('TUTOR ERROR:', err)
+      console.error('ERROR RESPONSE:', err?.response)
+      console.error('ERROR DATA:', err?.response?.data)
 
       setError({
         title: 'AI Assistant',

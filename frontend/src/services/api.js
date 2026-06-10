@@ -7,7 +7,7 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 60000, // 8-second timeout for professional response speed
+  timeout: 120000, // 8-second timeout for professional response speed
 })
 
 export async function tutorChat(payload) {

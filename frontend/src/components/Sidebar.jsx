@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import {
@@ -27,54 +27,44 @@ const navItems = [
   { to: '/profile', label: 'Profile', icon: User },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({
+  variant = 'desktop',
+  isOpen = true,
+  onClose,
+}) {
   const location = useLocation()
-  const [isOpen, setIsOpen] = useState(true)
-
-  useEffect(() => {
-    const onResize = () => {
-      setIsOpen(window.innerWidth >= 768)
-    }
-
-    onResize()
-    window.addEventListener('resize', onResize)
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
 
   const isActive = (to) => {
     if (to === '/' && location.pathname === '/') return true
     return location.pathname === to
   }
 
+  const isMobile = variant === 'mobile'
+
   return (
     <>
-      {/* Mobile Toggle */}
-      <button
-        type="button"
-        className="md:hidden fixed left-4 top-4 z-50 rounded-xl bg-slate-900/80 border border-white/10 px-3 py-2 text-white"
-        onClick={() => setIsOpen((v) => !v)}
-        aria-label="Toggle navigation"
-      >
-        Menu
-      </button>
-
-      {/* Sidebar */}
+      {/* Mobile: controlled off-canvas sidebar */}
       <aside
+        aria-label="Sidebar navigation"
         className={[
           'fixed md:sticky z-40',
           'left-0 top-0 h-screen',
-          'transition-transform duration-200',
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+          'transition-all duration-200 ease-out',
+          // Desktop: keep visible
+          !isMobile ? 'translate-x-0' : '',
+          // Mobile: open/close
+          isMobile
+            ? isOpen
+              ? 'translate-x-0 opacity-100'
+              : '-translate-x-full opacity-0'
+            : '',
+          // Ensure it doesn't receive pointer events when closed (mobile)
+          isMobile && !isOpen ? 'pointer-events-none' : 'pointer-events-auto',
         ].join(' ')}
       >
         <div className="h-full w-[260px] bg-white/5 border-r border-white/10 backdrop-blur-xl text-white p-4 flex flex-col">
-
           {/* Brand */}
           <div className="flex items-center gap-3 px-2 py-3 mb-8">
-
             <div className="w-14 h-14 overflow-hidden rounded-2xl shadow-lg border border-white/10">
               <img
                 src={Logo}
@@ -83,14 +73,9 @@ export default function Sidebar() {
               />
             </div>
 
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">
-                EduGenie X
-              </h1>
-
-              <p className="text-xs text-white/60">
-                Your Intelligent Academic Partner
-              </p>
+            <div className="min-w-0">
+              <h1 className="text-xl font-bold tracking-tight">EduGenie X</h1>
+              <p className="text-xs text-white/60">Your Intelligent Academic Partner</p>
             </div>
           </div>
 
@@ -105,9 +90,7 @@ export default function Sidebar() {
                   key={item.to}
                   to={item.to}
                   onClick={() => {
-                    if (window.innerWidth < 768) {
-                      setIsOpen(false)
-                    }
+                    if (isMobile) onClose?.()
                   }}
                   className={[
                     'flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200',
@@ -117,9 +100,7 @@ export default function Sidebar() {
                   ].join(' ')}
                 >
                   <Icon size={18} />
-                  <span className="font-medium">
-                    {item.label}
-                  </span>
+                  <span className="font-medium">{item.label}</span>
                 </Link>
               )
             })}
@@ -127,25 +108,21 @@ export default function Sidebar() {
 
           {/* Footer */}
           <div className="border-t border-white/10 pt-4">
-            <div className="text-xs text-white/50">
-              EduGenie X
-            </div>
-
-            <div className="text-sm font-medium text-white/80 mt-1">
-              Project by Asish Bose
-            </div>
+            <div className="text-xs text-white/50">EduGenie X</div>
+            <div className="text-sm font-medium text-white/80 mt-1">Project by Asish Bose</div>
           </div>
-
         </div>
       </aside>
 
-      {/* Mobile Overlay */}
-      {isOpen && (
+      {/* Mobile overlay */}
+      {isMobile && isOpen ? (
         <div
           className="md:hidden fixed inset-0 bg-black/40 z-30"
-          onClick={() => setIsOpen(false)}
+          onClick={onClose}
+          aria-hidden="true"
         />
-      )}
+      ) : null}
     </>
   )
 }
+

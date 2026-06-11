@@ -49,7 +49,7 @@ export default function Sidebar({
         className={[
           'fixed md:sticky z-40',
           'left-0 top-0 h-screen',
-          'transition-all duration-200 ease-out',
+          'transition-transform duration-300 ease-in-out',
           // Desktop: keep visible
           !isMobile ? 'translate-x-0' : '',
           // Mobile: open/close
@@ -62,7 +62,7 @@ export default function Sidebar({
           isMobile && !isOpen ? 'pointer-events-none' : 'pointer-events-auto',
         ].join(' ')}
       >
-        <div className="h-full w-[260px] bg-white/5 border-r border-white/10 backdrop-blur-xl text-white p-4 flex flex-col">
+        <div className="h-screen w-[260px] bg-white/5 border-r border-white/10 backdrop-blur-xl text-white p-4 flex flex-col overflow-y-auto">
           {/* Brand */}
           <div className="flex items-center gap-3 px-2 py-3 mb-8">
             <div className="w-14 h-14 overflow-hidden rounded-2xl shadow-lg border border-white/10">
@@ -107,9 +107,11 @@ export default function Sidebar({
           </nav>
 
           {/* Footer */}
-          <div className="border-t border-white/10 pt-4">
+          <div className="border-t border-white/10 pt-4 shrink-0">
             <div className="text-xs text-white/50">EduGenie X</div>
-            <div className="text-sm font-medium text-white/80 mt-1">Project by Asish Bose</div>
+            <div className="text-sm font-medium text-white/80 mt-1">
+              Project by Asish Bose
+            </div>
           </div>
         </div>
       </aside>

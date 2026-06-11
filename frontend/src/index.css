@@ -15,12 +15,23 @@
   --accent-to: #22d3ee; /* cyan */
 }
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     'Apple Color Emoji', 'Segoe UI Emoji';
   background: var(--bg);
   color: var(--text);
 }
+
+#root {
+  min-width: 0;
+}
+
 
 h1,
 h2,

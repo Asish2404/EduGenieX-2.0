@@ -57,7 +57,7 @@ export default function DashboardPage() {
         <div className="text-white/85 font-heading font-semibold mb-4">
           Statistics
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {statCards.map((s) => (
             <StatsCard key={s.label} label={s.label} value={s.value} />
           ))}
@@ -70,7 +70,7 @@ export default function DashboardPage() {
           What you can do
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {featureCards.map((f) => {
             const Icon = featureIcon[f.key]
             return (
